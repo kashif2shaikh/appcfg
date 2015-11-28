@@ -78,6 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ConfigController.cs" />
+    <Compile Include="Models\Audit.cs" />
+    <Compile Include="Models\ConfigSet.cs" />
+    <Compile Include="Models\ResponseStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

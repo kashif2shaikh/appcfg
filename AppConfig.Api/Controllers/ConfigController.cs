@@ -10,17 +10,18 @@ using AppConfig.Model;
 namespace AppConfig.Api.Controllers {
 
     public class ConfigController : ApiController {
-        readonly ISettings settings;
 
 
         public ConfigController() {
-            this.settings = Settings.Local;
         }
 
 
+        // TODO: version range
+        // TODO: environment - PRODWEB5 or Android or iOS, etc
+        // TODO: environment is not required
         [HttpGet]
-        [Route("~/{appName}/{appVersion}")]
-        public AppConfiguration Get(string appName, string appVersion) {
+        [Route("~/{appName}/{appVersion}/{environment}")]
+        public AppConfiguration Get(string appName, string appVersion, string environment = null) {
             var ver = Version.Parse(appVersion); // TODO: version range
             var cfg = new AppConfiguration {
                 ApplicationName = appName,
@@ -45,23 +46,6 @@ namespace AppConfig.Api.Controllers {
             cfg.Status = ConfigStatus.Success;
 
             return cfg;
-        }
-
-
-        Dictionary<string, string> GetCustomParams(string rootKey) {
-            // TODO: ignore url
-            var dict = new Dictionary<string, string>();
-            var keys = this.settings
-                .List
-                .Keys
-                .Where(x => x.StartsWith(rootKey, true, CultureInfo.DefaultThreadCurrentCulture));
-
-            foreach (var key in keys) {
-                var newKey = key.Replace(rootKey + "/", String.Empty);
-                var value = this.settings.Get<string>(key);
-                dict.Add(newKey, value);
-            }
-            return dict;
         }
     }
 }
