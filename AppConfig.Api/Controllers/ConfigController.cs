@@ -1,18 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
-using Acr.Settings;
-using AppConfig.Model;
+using AppConfig.Api.Models;
+using AppConfig.Client.ViewModels;
 
 
 namespace AppConfig.Api.Controllers {
 
     public class ConfigController : ApiController {
+        readonly CfgDbContext data;
 
 
-        public ConfigController() {
+        public ConfigController(CfgDbContext data) {
+            this.data = data;
         }
 
 
@@ -21,31 +23,60 @@ namespace AppConfig.Api.Controllers {
         // TODO: environment is not required
         [HttpGet]
         [Route("~/{appName}/{appVersion}/{environment}")]
-        public AppConfiguration Get(string appName, string appVersion, string environment = null) {
-            var ver = Version.Parse(appVersion); // TODO: version range
+        public async Task<AppConfiguration> Get(string appName, string appVersion, string environment) {
+            this.data.Audits.Add(new Audit {
+                AppName = appName,
+                Environment = environment,
+                IpAddress = this.GetIpAddress(),
+                Version = appVersion,
+                DateCreated = DateTimeOffset.Now
+            });
             var cfg = new AppConfiguration {
-                ApplicationName = appName,
-                Version = ver
+                Status = ResponseStatus.Success
             };
 
-            var isAppKnown = this.settings.List.Keys.Any(x => x.StartsWith(appName, true, CultureInfo.DefaultThreadCurrentCulture));
-            if (!isAppKnown) {
-                cfg.Status = ConfigStatus.UnknownApp;
-                return cfg;
-            }
+            var app = await this.data.Applications.FirstOrDefaultAsync(x => x.AccessKey == appName);
 
-            var rootKey = $"{appName}/{appVersion}";
-            var isVersionKnown = this.settings.List.Keys.Any(x => x.StartsWith(rootKey, true, CultureInfo.DefaultThreadCurrentCulture));
-            if (!isVersionKnown) {
-                cfg.Status = ConfigStatus.UnknownVersion;
-                return cfg;
-            }
+            if (app == null)
+                cfg.Status = ResponseStatus.ApplicationInvalid;
 
-            cfg.BaseApiUrl = this.settings.Get<string>($"{rootKey}/url");
-            cfg.CustomParameters = this.GetCustomParams(rootKey);
-            cfg.Status = ConfigStatus.Success;
+            else if (!app.IsActive)
+                cfg.Status = ResponseStatus.ApplicationInactive;
+
+            else {
+                var ver = Version.Parse(appVersion);
+                var csQuery = this.data.ConfigSets.Where(x =>
+                    x.App.AccessKey == appName &&
+                    x.MinVersion.Major >= ver.Major &&
+                    x.MinVersion.Minor >= ver.Minor &&
+                    x.MinVersion.Revision >= ver.Revision &&
+                    x.MaxVersion.Major <= ver.Major &&
+                    x.MaxVersion.Minor <= ver.Minor &&
+                    x.MaxVersion.Revision <= ver.Revision
+                );
+
+                var env = await this.data.Environments.FirstOrDefaultAsync(x => x.AccessKey == environment);
+
+                if (env != null) {
+                    if (!env.IsActive)
+                        cfg.Status = ResponseStatus.EnvironmentInactive;
+                    else
+                        csQuery = csQuery.Where(x => x.EnvId == env.Id);
+                }
+
+                if (cfg.Status == ResponseStatus.Success) {
+                    var data = await csQuery.ToListAsync();
+
+                }
+            }
+            await this.data.SaveChangesAsync();
 
             return cfg;
+        }
+
+
+        string GetIpAddress() {
+            return String.Empty;
         }
     }
 }

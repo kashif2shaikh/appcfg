@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AppConfig.Model;
+using AppConfig.Client.ViewModels;
 using Newtonsoft.Json;
 
 
@@ -16,7 +16,7 @@ namespace AppConfig.Client {
         }
 
 
-        public async Task<AppConfiguration> GetConfiguration(string appName, Version appVersion) {
+        public async Task<AppConfiguration> GetConfiguration(string appName, Version appVersion, string environment) {
             using (var http = new HttpClient()) {
                 var response = await http.GetStringAsync($"{this.BaseUrl}/{appName}/{appVersion}");
                 var result = JsonConvert.DeserializeObject<AppConfiguration>(response);

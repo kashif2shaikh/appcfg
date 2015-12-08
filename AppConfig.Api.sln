@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfig.Client", "AppConfig.Client\AppConfig.Client.csproj", "{8A303376-269A-4D30-A3D1-84E7F2733C5A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfig.Model", "AppConfig.Model\AppConfig.Model.csproj", "{AF1E4F94-AFE4-401A-99CD-E2FDACF3D4B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfig.Api", "AppConfig.Api\AppConfig.Api.csproj", "{3509E3B7-1F5B-49B3-9398-BB5A9AA489AA}"
 EndProject
@@ -23,10 +21,6 @@ Global
 		{8A303376-269A-4D30-A3D1-84E7F2733C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A303376-269A-4D30-A3D1-84E7F2733C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A303376-269A-4D30-A3D1-84E7F2733C5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF1E4F94-AFE4-401A-99CD-E2FDACF3D4B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF1E4F94-AFE4-401A-99CD-E2FDACF3D4B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF1E4F94-AFE4-401A-99CD-E2FDACF3D4B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF1E4F94-AFE4-401A-99CD-E2FDACF3D4B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3509E3B7-1F5B-49B3-9398-BB5A9AA489AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3509E3B7-1F5B-49B3-9398-BB5A9AA489AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3509E3B7-1F5B-49B3-9398-BB5A9AA489AA}.Release|Any CPU.ActiveCfg = Release|Any CPU

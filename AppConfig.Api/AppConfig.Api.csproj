@@ -37,12 +37,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Acr.Settings, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Acr.Settings.4.3.6\lib\net45\Acr.Settings.dll</HintPath>
+    <Reference Include="Acr.Cache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Acr.Cache.1.1.0\lib\portable-win+net45+wp8+win8+wpa81\Acr.Cache.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Acr.Settings.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Acr.Settings.4.3.6\lib\net45\Acr.Settings.Interface.dll</HintPath>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.WebApi2.3.4.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -58,6 +70,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -77,10 +90,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CfgDbContext.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
+    <Compile Include="Models\App.cs" />
     <Compile Include="Models\Audit.cs" />
     <Compile Include="Models\ConfigSet.cs" />
-    <Compile Include="Models\ResponseStatus.cs" />
+    <Compile Include="Models\Mapping\AuditMap.cs" />
+    <Compile Include="Models\Mapping\EnvMap.cs" />
+    <Compile Include="Models\Mapping\AppMap.cs" />
+    <Compile Include="Models\Mapping\ConfigSetMap.cs" />
+    <Compile Include="Models\Mapping\SettingMap.cs" />
+    <Compile Include="Models\Setting.cs" />
+    <Compile Include="Models\Env.cs" />
+    <Compile Include="Models\VersionComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -89,9 +111,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AppConfig.Model\AppConfig.Model.csproj">
-      <Project>{af1e4f94-afe4-401a-99cd-e2fdacf3d4b9}</Project>
-      <Name>AppConfig.Model</Name>
+    <ProjectReference Include="..\AppConfig.Client\AppConfig.Client.csproj">
+      <Project>{8a303376-269a-4d30-a3d1-84e7f2733c5a}</Project>
+      <Name>AppConfig.Client</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
