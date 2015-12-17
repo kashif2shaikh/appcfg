@@ -20,7 +20,7 @@ namespace AppConfig.Api.Controllers {
 
 
         // ie: https://localhost/config/mwl/1.0.0.0/android
-        // ie: https://localhost/config/bgservice/2.0.1/PRODWEB
+        // ie: https://localhost/config/service/2.0.1/PRODWEB
         [HttpGet]
         [Route("~/{appName}/{appVersion}/{environment}")]
         public async Task<AppConfiguration> Get(string appName, string appVersion, string environment) {
@@ -67,7 +67,6 @@ namespace AppConfig.Api.Controllers {
                 if (cfg.Status == ResponseStatus.Success) {
                     var data = await csQuery.ToListAsync();
 
-                    // take all enviro settings first
                     var cfgset = data.FirstOrDefault(x => x.Env == null);
                     if (cfgset != null) {
                         audit.ConfigSet = cfgset;
@@ -85,8 +84,6 @@ namespace AppConfig.Api.Controllers {
                             .ToList()
                             .ForEach(x => cfg.Settings[x.Key] = x.Value);
                     }
-                    // now take all of the default settings if any
-
                 }
             }
             await this.data.SaveChangesAsync();
