@@ -14,7 +14,7 @@ namespace AppConfig.Api.Models.Mapping {
             this.Property(x => x.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            this.Property(x => x.EnvId);
+            this.Property(x => x.EnvId).IsOptional();
             this.Property(x => x.AppId);
 
             this.HasOptional(x => x.Env)

@@ -24,7 +24,7 @@ namespace AppConfig.Api.Controllers {
         [HttpGet]
         [Route("~/{appName}/{appVersion}/{environment}")]
         public async Task<AppConfiguration> Get(string appName, string appVersion, string environment) {
-            this.data.Audits.Add(new Audit {
+            var audit = this.data.Audits.Add(new Audit {
                 AppName = appName,
                 Environment = environment,
                 IpAddress = this.GetIpAddress(),
@@ -37,11 +37,9 @@ namespace AppConfig.Api.Controllers {
 
             var app = await this.data.Applications.FirstOrDefaultAsync(x => x.AccessKey == appName);
 
-            if (app == null)
+            if (app == null || !this.IsAppSecretGood(app))
                 cfg.Status = ResponseStatus.ApplicationInvalid;
 
-            // TODO: client secret
-            //else if (!String.IsNullOrWhiteSpace(app.ClientSecret) && app.ClientSecret != this.Request.Headers[""])
             else if (!app.IsActive)
                 cfg.Status = ResponseStatus.ApplicationInactive;
 
@@ -63,28 +61,32 @@ namespace AppConfig.Api.Controllers {
                     if (!env.IsActive)
                         cfg.Status = ResponseStatus.EnvironmentInactive;
                     else
-                        csQuery = csQuery.Where(x => x.EnvId == env.Id);
+                        csQuery = csQuery.Where(x => x.EnvId == env.Id || x.EnvId == null);
                 }
 
                 if (cfg.Status == ResponseStatus.Success) {
                     var data = await csQuery.ToListAsync();
 
                     // take all enviro settings first
-                    data
-                        .FirstOrDefault(x => x.Env.AccessKey == environment)?
-                        .Settings
-                        .ToList()
-                        .ForEach(x => cfg.Settings.Add(x.Key, x.Value));
+                    var cfgset = data.FirstOrDefault(x => x.Env == null);
+                    if (cfgset != null) {
+                        audit.ConfigSet = cfgset;
+                        cfgset
+                            .Settings
+                            .ToList()
+                            .ForEach(x => cfg.Settings[x.Key] = x.Value);
+                    }
 
+                    cfgset = data.FirstOrDefault(x => x.Env.AccessKey == environment);
+                    if (cfgset != null) {
+                        audit.ConfigSet = cfgset;
+                        cfgset
+                            .Settings
+                            .ToList()
+                            .ForEach(x => cfg.Settings[x.Key] = x.Value);
+                    }
                     // now take all of the default settings if any
-                    data
-                        .FirstOrDefault(x => x.Env == null)?
-                        .Settings
-                        .ToList()
-                        .ForEach(x => {
-                            if (!cfg.Settings.ContainsKey(x.Key))
-                                cfg.Settings.Add(x.Key, x.Value);
-                        });
+
                 }
             }
             await this.data.SaveChangesAsync();
@@ -93,6 +95,20 @@ namespace AppConfig.Api.Controllers {
         }
 
 
+
+        bool IsAppSecretGood(App app) {
+            if (String.IsNullOrWhiteSpace(app.ClientSecret))
+                return true;
+
+            var key = this.Request.Headers.Authorization?.Scheme;
+            if (String.IsNullOrWhiteSpace(key))
+                return false;
+
+            if (key != app.ClientSecret)
+                return false;
+
+            return true;
+        }
 
 
         const string HttpContext = "MS_HttpContext";
