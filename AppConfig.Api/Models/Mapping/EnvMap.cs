@@ -22,7 +22,7 @@ namespace AppConfig.Api.Models.Mapping {
                 );
 
             this.HasMany(x => x.ConfigSets)
-                .WithRequired(x => x.Env)
+                .WithOptional(x => x.Env)
                 .HasForeignKey(x => x.EnvId);
         }
     }

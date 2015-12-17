@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AppConfig.Api.Models;
@@ -18,9 +19,8 @@ namespace AppConfig.Api.Controllers {
         }
 
 
-        // TODO: version range
-        // TODO: environment - PRODWEB5 or Android or iOS, etc
-        // TODO: environment is not required
+        // ie: https://localhost/config/mwl/1.0.0.0/android
+        // ie: https://localhost/config/bgservice/2.0.1/PRODWEB
         [HttpGet]
         [Route("~/{appName}/{appVersion}/{environment}")]
         public async Task<AppConfiguration> Get(string appName, string appVersion, string environment) {
@@ -40,6 +40,8 @@ namespace AppConfig.Api.Controllers {
             if (app == null)
                 cfg.Status = ResponseStatus.ApplicationInvalid;
 
+            // TODO: client secret
+            //else if (!String.IsNullOrWhiteSpace(app.ClientSecret) && app.ClientSecret != this.Request.Headers[""])
             else if (!app.IsActive)
                 cfg.Status = ResponseStatus.ApplicationInactive;
 
@@ -67,6 +69,22 @@ namespace AppConfig.Api.Controllers {
                 if (cfg.Status == ResponseStatus.Success) {
                     var data = await csQuery.ToListAsync();
 
+                    // take all enviro settings first
+                    data
+                        .FirstOrDefault(x => x.Env.AccessKey == environment)?
+                        .Settings
+                        .ToList()
+                        .ForEach(x => cfg.Settings.Add(x.Key, x.Value));
+
+                    // now take all of the default settings if any
+                    data
+                        .FirstOrDefault(x => x.Env == null)?
+                        .Settings
+                        .ToList()
+                        .ForEach(x => {
+                            if (!cfg.Settings.ContainsKey(x.Key))
+                                cfg.Settings.Add(x.Key, x.Value);
+                        });
                 }
             }
             await this.data.SaveChangesAsync();
@@ -75,8 +93,24 @@ namespace AppConfig.Api.Controllers {
         }
 
 
+
+
+        const string HttpContext = "MS_HttpContext";
+        const string RemoteEndpointMessage = "System.ServiceModel.Channels.RemoteEndpointMessageProperty";
+
         string GetIpAddress() {
-            return String.Empty;
+            if (this.Request.Properties.ContainsKey(HttpContext)) {
+                dynamic ctx = this.Request.Properties[HttpContext];
+                if (ctx != null)
+                    return ctx.Request.UserHostAddress;
+            }
+
+            if (this.Request.Properties.ContainsKey(RemoteEndpointMessage)) {
+                dynamic remoteEndpoint = this.Request.Properties[RemoteEndpointMessage];
+                if (remoteEndpoint != null)
+                    return remoteEndpoint.Address;
+            }
+            return null;
         }
     }
 }
