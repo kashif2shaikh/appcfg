@@ -46,7 +46,7 @@ namespace AppConfig.Api.Controllers {
             else {
                 var ver = Version.Parse(appVersion);
                 var csQuery = this.data.ConfigSets.Where(x =>
-                    x.App.AccessKey == appName &&
+                    x.App.Id == app.Id &&
                     x.MinVersion.Major >= ver.Major &&
                     x.MinVersion.Minor >= ver.Minor &&
                     x.MinVersion.Revision >= ver.Revision &&
@@ -90,7 +90,6 @@ namespace AppConfig.Api.Controllers {
 
             return cfg;
         }
-
 
 
         bool IsAppSecretGood(App app) {

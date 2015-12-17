@@ -95,10 +95,10 @@
     <Compile Include="Models\App.cs" />
     <Compile Include="Models\Audit.cs" />
     <Compile Include="Models\ConfigSet.cs" />
-    <Compile Include="Models\Mapping\AuditMap.cs" />
-    <Compile Include="Models\Mapping\EnvMap.cs" />
     <Compile Include="Models\Mapping\AppMap.cs" />
+    <Compile Include="Models\Mapping\AuditMap.cs" />
     <Compile Include="Models\Mapping\ConfigSetMap.cs" />
+    <Compile Include="Models\Mapping\EnvMap.cs" />
     <Compile Include="Models\Mapping\SettingMap.cs" />
     <Compile Include="Models\Setting.cs" />
     <Compile Include="Models\Env.cs" />
