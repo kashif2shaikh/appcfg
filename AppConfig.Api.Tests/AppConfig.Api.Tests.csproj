@@ -119,6 +119,14 @@
       <Project>{8a303376-269a-4d30-a3d1-84e7f2733c5a}</Project>
       <Name>AppConfig.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AppConfig.Data.Ef\AppConfig.Data.Ef.csproj">
+      <Project>{63158e5c-762c-4be5-8bec-e72844948e14}</Project>
+      <Name>AppConfig.Data.Ef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppConfig.Data\AppConfig.Data.csproj">
+      <Project>{c2365547-3f20-45cd-86d9-3a343703da45}</Project>
+      <Name>AppConfig.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

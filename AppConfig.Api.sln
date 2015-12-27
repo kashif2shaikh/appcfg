@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfig.Api.IisHosting", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfig.Api.Tests", "AppConfig.Api.Tests\AppConfig.Api.Tests.csproj", "{0282B767-2AAF-4662-BC57-C8C6AFE2E142}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfig.Data", "AppConfig.Data\AppConfig.Data.csproj", "{C2365547-3F20-45CD-86D9-3A343703DA45}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{6C1C3532-08A6-439D-9FF1-B938B09FEB28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfig.Data.Ef", "AppConfig.Data.Ef\AppConfig.Data.Ef.csproj", "{63158E5C-762C-4BE5-8BEC-E72844948E14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +39,21 @@ Global
 		{0282B767-2AAF-4662-BC57-C8C6AFE2E142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0282B767-2AAF-4662-BC57-C8C6AFE2E142}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0282B767-2AAF-4662-BC57-C8C6AFE2E142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2365547-3F20-45CD-86D9-3A343703DA45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2365547-3F20-45CD-86D9-3A343703DA45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2365547-3F20-45CD-86D9-3A343703DA45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2365547-3F20-45CD-86D9-3A343703DA45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63158E5C-762C-4BE5-8BEC-E72844948E14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63158E5C-762C-4BE5-8BEC-E72844948E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63158E5C-762C-4BE5-8BEC-E72844948E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63158E5C-762C-4BE5-8BEC-E72844948E14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3509E3B7-1F5B-49B3-9398-BB5A9AA489AA} = {6C1C3532-08A6-439D-9FF1-B938B09FEB28}
+		{C2365547-3F20-45CD-86D9-3A343703DA45} = {6C1C3532-08A6-439D-9FF1-B938B09FEB28}
+		{63158E5C-762C-4BE5-8BEC-E72844948E14} = {6C1C3532-08A6-439D-9FF1-B938B09FEB28}
 	EndGlobalSection
 EndGlobal

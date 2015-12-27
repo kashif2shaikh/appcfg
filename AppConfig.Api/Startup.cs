@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using AppConfig.Data.Ef;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Owin;
@@ -11,10 +12,7 @@ namespace AppConfig.Api {
 
         public void Configuration(IAppBuilder app) {
             var builder = new ContainerBuilder();
-            builder
-                .Register(x => new CfgDbContext())
-                .AsSelf()
-                .InstancePerLifetimeScope();
+            builder.RegisterModule(new EfDataModule());
             var container = builder.Build();
 
             var cfg = new HttpConfiguration {
