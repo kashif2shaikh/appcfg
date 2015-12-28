@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.Http;
-using AppConfig.Data.Ef;
+using AppConfig.Core.Ef;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Owin;

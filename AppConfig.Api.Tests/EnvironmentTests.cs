@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AppConfig.Api.Models;
-using AppConfig.Client;
-using AppConfig.Client.ViewModels;
-using Microsoft.Owin.Hosting;
+using AppConfig.Core.Models;
+using AppConfig.Core.Ef;
 using NUnit.Framework;
 
 

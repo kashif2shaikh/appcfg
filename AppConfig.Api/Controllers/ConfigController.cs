@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using AppConfig.Client.ViewModels;
-using AppConfig.Data;
+using AppConfig.Core;
 
 
 namespace AppConfig.Api.Controllers {

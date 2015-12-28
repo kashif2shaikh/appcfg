@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AppConfig.Api.Models;
+using AppConfig.Core.Models;
 using AppConfig.Client.ViewModels;
+using AppConfig.Core.Ef;
 using NUnit.Framework;
 
 
