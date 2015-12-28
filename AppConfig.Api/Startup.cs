@@ -12,6 +12,7 @@ namespace AppConfig.Api {
 
         public void Configuration(IAppBuilder app) {
             var builder = new ContainerBuilder();
+            builder.RegisterApiControllers();
             builder.RegisterModule(new EfDataModule());
             var container = builder.Build();
 
