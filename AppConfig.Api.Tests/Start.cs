@@ -8,7 +8,7 @@ namespace AppConfig.Api.Tests {
     [SetUpFixture]
     public class Start {
 
-        [SetUp]
+        [OneTimeSetUp]
         public void OnStart() {
             EntityFrameworkProfiler.Initialize();
         }
