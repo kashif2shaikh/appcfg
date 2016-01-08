@@ -44,10 +44,10 @@ namespace AppConfig.Core.Ef {
                     x.AppId == app.Id &&
                     x.MinVersion.Major >= ver.Major &&
                     x.MinVersion.Minor >= ver.Minor &&
-                    x.MinVersion.Revision >= ver.Build &&
-                    x.MaxVersion.Major <= ver.Major &&
-                    x.MaxVersion.Minor <= ver.Minor &&
-                    x.MaxVersion.Revision <= ver.Build
+                    x.MinVersion.Revision >= ver.Build
+                    //x.MaxVersion.Major <= ver.Major &&
+                    //x.MaxVersion.Minor <= ver.Minor &&
+                    //x.MaxVersion.Revision <= ver.Build
                 );
 
                 var env = await this.data.Environments.FirstOrDefaultAsync(x => x.AccessKey == environment);
