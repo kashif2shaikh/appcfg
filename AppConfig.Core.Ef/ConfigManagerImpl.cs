@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,11 +18,11 @@ namespace AppConfig.Core.Ef {
         }
 
 
-        public async Task<AppConfiguration> Get(string appName, string appVersion, string environment, string secret) {
+        public async Task<AppConfiguration> Get(string appName, string appVersion, string environment, string secret, string ipAddress) {
             var audit = this.data.Audits.Add(new Audit {
                 AppName = appName,
                 Environment = environment,
-                //IpAddress = this.GetIpAddress(),
+                IpAddress = ipAddress ?? String.Empty,
                 Version = appVersion,
                 DateCreated = DateTimeOffset.Now
             });
@@ -43,10 +44,10 @@ namespace AppConfig.Core.Ef {
                     x.AppId == app.Id &&
                     x.MinVersion.Major >= ver.Major &&
                     x.MinVersion.Minor >= ver.Minor &&
-                    x.MinVersion.Revision >= ver.Revision &&
-                    x.MaxVersion.Major <= ver.Major &&
-                    x.MaxVersion.Minor <= ver.Minor &&
-                    x.MaxVersion.Revision <= ver.Revision
+                    x.MinVersion.Revision >= ver.Build
+                    //x.MaxVersion.Major <= ver.Major &&
+                    //x.MaxVersion.Minor <= ver.Minor &&
+                    //x.MaxVersion.Revision <= ver.Build
                 );
 
                 var env = await this.data.Environments.FirstOrDefaultAsync(x => x.AccessKey == environment);
@@ -60,30 +61,32 @@ namespace AppConfig.Core.Ef {
 
                 if (cfg.Status == ResponseStatus.Success) {
                     var data = await csQuery.ToListAsync();
+                    if (data.Count == 0)
+                        cfg.Status = ResponseStatus.VersionInvalid;
+                    else {
+                        var cfgset = data.FirstOrDefault(x => x.Env == null);
+                        if (cfgset != null) {
+                            audit.ConfigSet = cfgset;
+                            cfgset
+                                .Settings
+                                .ToList()
+                                .ForEach(x => cfg.Settings[x.Key] = x.Value);
+                        }
 
-                    var cfgset = data.FirstOrDefault(x => x.Env == null);
-                    if (cfgset != null) {
-                        audit.ConfigSet = cfgset;
-                        cfgset
-                            .Settings
-                            .ToList()
-                            .ForEach(x => cfg.Settings[x.Key] = x.Value);
-                    }
-
-                    cfgset = data.FirstOrDefault(x => x.Env.AccessKey == environment);
-                    if (cfgset != null) {
-                        audit.ConfigSet = cfgset;
-                        cfgset
-                            .Settings
-                            .ToList()
-                            .ForEach(x => cfg.Settings[x.Key] = x.Value);
+                        cfgset = data.FirstOrDefault(x => x.Env != null && x.Env.AccessKey == environment);
+                        if (cfgset != null) {
+                            audit.ConfigSet = cfgset;
+                            cfgset
+                                .Settings
+                                .ToList()
+                                .ForEach(x => cfg.Settings[x.Key] = x.Value);
+                        }
                     }
                 }
             }
             await this.data.SaveChangesAsync();
 
             return cfg;
-
         }
 
 

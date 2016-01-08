@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Configuration;
+using System.Reflection;
 using System.Web.Http;
 using AppConfig.Core.Ef;
 using Autofac;
@@ -12,8 +14,10 @@ namespace AppConfig.Api {
 
         public void Configuration(IAppBuilder app) {
             var builder = new ContainerBuilder();
-            builder.RegisterApiControllers();
-            builder.RegisterModule(new EfDataModule());
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterModule(new EfDataModule {
+                IsDebugEnabled = ConfigurationManager.AppSettings["Data/IsDebugEnabled"] == "true"
+            });
             var container = builder.Build();
 
             var cfg = new HttpConfiguration {

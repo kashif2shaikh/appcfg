@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AppConfig.Client.ViewModels;
 using AppConfig.Core;
 using AppConfig.Core.Ef;
 using AppConfig.Core.Models;
@@ -18,8 +19,11 @@ namespace AppConfig.Api.Tests {
         [Test]
         public async Task EndToEndTest() {
             var mgr = this.container.Resolve<IConfigManager>();
-            var result = await mgr.Get("", "", "", "");
-
+            var result = await mgr.Get(AppName, "1.0.0", "none", null, null);
+            Assert.IsNotNull(result, "No result");
+            Assert.IsNotNull(result.Settings, "No settings");
+            Assert.AreEqual(ResponseStatus.Success, result.Status);
+            Assert.AreEqual(1, result.Settings.Count);
         }
 
 
@@ -32,35 +36,48 @@ namespace AppConfig.Api.Tests {
             using (var db = new CfgDbContext()) {
                 var app = db.Applications.Add(new App {
                     Description = "good",
-                    AccessKey = AppName + "-good",
-                    //ClientSecret =
+                    AccessKey = AppName,
+                    ClientSecret = String.Empty,
                     IsActive = true
                 });
 
-                var env = db.Environments.Add(new Env {
-                    IsActive = true
-                });
-                var cfgEnv = db.ConfigSets.Add(new ConfigSet {
-                    Env = env,
-                    IsActive = true
-                });
+                //var env = db.Environments.Add(new Env {
+                //    IsActive = true
+                //});
+                //var cfgEnv = db.ConfigSets.Add(new ConfigSet {
+                //    Env = env,
+                //    IsActive = true,
+                //    MaxVersion = new VersionComponent {
+                //        Major = 1
+                //    },
+                //    MinVersion = new VersionComponent {
+                //        Major = 1,
+                //        Minor = 9
+                //    }
+                //});
                 var cfgNoEnv = db.ConfigSets.Add(new ConfigSet {
-                    App = app
+                    App = app,
+                    IsActive = true,
+                    MaxVersion = new VersionComponent {
+                        Major = 1
+                    },
+                    MinVersion = new VersionComponent {
+                        Major = 1,
+                        Minor = 9
+                    }
                 });
 
 
                 // bad sets
-                db.Applications.Add(new App {
-                    Description = AppName + "-bad",
-                    IsActive = false
-                });
-                db.ConfigSets.Add(new ConfigSet {
-                    App = app,
-                    IsActive = false
-                });
-                db.Environments.Add(new Env {
-                    IsActive = false
-                });
+                //db.Applications.Add(new App {
+                //    Description = AppName + "-bad",
+                //    IsActive = false
+                //});
+
+                //db.Environments.Add(new Env {
+                //    AccessKey = "good",
+                //    IsActive = false
+                //});
 
                 // settings
                 db.Settings.Add(new Setting {
@@ -68,11 +85,11 @@ namespace AppConfig.Api.Tests {
                     Key = "1",
                     Value = "noenv"
                 });
-                db.Settings.Add(new Setting {
-                    ConfigSet = cfgEnv,
-                    Key = "1",
-                    Value = "env"
-                });
+                //db.Settings.Add(new Setting {
+                //    ConfigSet = cfgEnv,
+                //    Key = "1",
+                //    Value = "env"
+                //});
 
                 db.SaveChanges();
             }

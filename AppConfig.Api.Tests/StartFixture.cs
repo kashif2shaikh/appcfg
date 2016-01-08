@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace AppConfig.Api.Tests {
 
     [SetUpFixture]
-    public class Start {
+    public class StartFixture {
 
         [OneTimeSetUp]
         public void OnStart() {

@@ -38,12 +38,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IConfigManager.cs" />
-    <Compile Include="Model\App.cs" />
-    <Compile Include="Model\Audit.cs" />
-    <Compile Include="Model\ConfigSet.cs" />
-    <Compile Include="Model\Env.cs" />
-    <Compile Include="Model\Setting.cs" />
-    <Compile Include="Model\VersionComponent.cs" />
+    <Compile Include="Models\App.cs" />
+    <Compile Include="Models\Audit.cs" />
+    <Compile Include="Models\ConfigSet.cs" />
+    <Compile Include="Models\Env.cs" />
+    <Compile Include="Models\Setting.cs" />
+    <Compile Include="Models\VersionComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

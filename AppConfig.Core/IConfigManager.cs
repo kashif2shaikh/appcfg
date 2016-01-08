@@ -7,6 +7,6 @@ namespace AppConfig.Core {
 
     public interface IConfigManager {
 
-        Task<AppConfiguration> Get(string appName, string appVersion, string environment, string secret);
+        Task<AppConfiguration> Get(string appName, string appVersion, string environment, string secret, string ipAddress);
     }
 }

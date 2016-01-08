@@ -53,11 +53,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Acr.Settings, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Acr.Settings.4.3.6\lib\net45\Acr.Settings.dll</HintPath>
+      <HintPath>..\packages\Acr.Settings.4.3.8\lib\net45\Acr.Settings.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Acr.Settings.Interface, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Acr.Settings.4.3.6\lib\net45\Acr.Settings.Interface.dll</HintPath>
+      <HintPath>..\packages\Acr.Settings.4.3.8\lib\net45\Acr.Settings.Interface.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -73,7 +73,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="HibernatingRhinos.Profiler.Appender, Version=3.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFrameworkProfiler.Appender.3.0.3088.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+      <HintPath>..\packages\EntityFrameworkProfiler.Appender.3.0.3089.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -88,8 +88,8 @@
       <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
@@ -126,7 +126,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AppTests.cs" />
     <Compile Include="EnvironmentTests.cs" />
-    <Compile Include="Start.cs" />
+    <Compile Include="StartFixture.cs" />
     <Compile Include="TestDbInitializer.cs" />
     <Compile Include="VersionTests.cs" />
   </ItemGroup>

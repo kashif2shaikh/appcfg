@@ -24,7 +24,7 @@ namespace AppConfig.Client {
                 if (this.ClientSecret != null)
                     http.DefaultRequestHeaders.Add("s", this.ClientSecret);
 
-                var response = await http.GetStringAsync($"{this.BaseUrl}/{appName}/{appVersion}");
+                var response = await http.GetStringAsync($"{this.BaseUrl}/{appName}/{appVersion}/{environment}");
                 var result = JsonConvert.DeserializeObject<AppConfiguration>(response);
                 return result;
             }
