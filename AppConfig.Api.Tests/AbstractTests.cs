@@ -16,7 +16,8 @@ namespace AppConfig.Api.Tests {
 
             using (WebApp.Start<Startup>(this.Url)) {
                 var client = new AppConfigClient(this.Url);
-                return await client.GetConfiguration(appName, ver, env);
+                var cfg = await client.GetConfiguration(appName, ver, env);
+                return cfg;
             }
         }
     }
