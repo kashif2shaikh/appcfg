@@ -40,8 +40,11 @@ namespace AppConfig.Core.Ef {
 
             else {
                 var ver = Version.Parse(appVersion);
+                var verCalc = this.VersionCalc(ver);
+
                 var csQuery = this.data.ConfigSets.Where(x =>
                     x.AppId == app.Id &&
+
                     x.MinVersion.Major >= ver.Major &&
                     x.MinVersion.Minor >= ver.Minor &&
                     x.MinVersion.Revision >= ver.Build
@@ -87,6 +90,12 @@ namespace AppConfig.Core.Ef {
             await this.data.SaveChangesAsync();
 
             return cfg;
+        }
+
+
+        int VersionCalc(Version version) {
+            var amt = ((version.Major + 100) * 100) + ((version.Minor + 10) * 10) + (version.Build + 1);
+            return amt;
         }
 
 
