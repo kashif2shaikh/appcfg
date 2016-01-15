@@ -11,12 +11,12 @@ namespace AppConfig.Api.Tests {
 
     [TestFixture]
     public class VersionTests : AbstractTests {
-        const string APP = "versiontests";
+        const string APP = "app";
 
 
         [Test]
         public async Task SuccessTest() {
-            var cfg = await this.GetConfig(APP, "1.5.0.5", "asdf");
+            var cfg = await this.GetConfig(APP, "1.0.0", "asdf");
             Assert.AreEqual(ResponseStatus.Success, cfg.Status);
         }
 
@@ -39,7 +39,7 @@ namespace AppConfig.Api.Tests {
         public void OnStart() {
             using (var db = new CfgDbContext()) {
                 var app = db.Applications.Add(new App {
-                    AccessKey = "versiontests",
+                    AccessKey = APP,
                     ClientSecret = String.Empty,
                     Description = "version tests",
                     IsActive = true,
