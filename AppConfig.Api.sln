@@ -17,6 +17,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfig.Core.Ef", "AppCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfig.Api.Hosting.Iis", "AppConfig.Api.Hosting.Iis\AppConfig.Api.Hosting.Iis.csproj", "{945AC20C-827D-45BD-91F5-671077CBD787}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspec", "nuspec", "{D485BE16-EA11-4788-B07F-C048C47A1D6A}"
+	ProjectSection(SolutionItems) = preProject
+		nuspec\Acr.AppConfig.Client.nuspec = nuspec\Acr.AppConfig.Client.nuspec
+		nuspec\nuget.exe = nuspec\nuget.exe
+		nuspec\pack.cmd = nuspec\pack.cmd
+		nuspec\push.cmd = nuspec\push.cmd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
